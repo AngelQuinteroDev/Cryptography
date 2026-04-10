@@ -4,3 +4,17 @@ Obj/
 Build/
 Logs/
 UserSettings/
+
+*.pdf
+*.docx
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.webp
+*.svg
+*.eps
+*.ai
