@@ -1,43 +1,44 @@
-using System;
-using System.Text;
-using System.Security.Cryptography;
 using UnityEngine;
 
+// Script de prueba rápida — corre en Start() sin necesidad de UI ni red.
+// Usa el adaptador activo para demostrar hash + firma + verificación en el log.
 public class FirmaDigital : MonoBehaviour
 {
+    [Header("Modo")]
+    public bool usarLibrerias = true;
+    public string claveCustom = "gato";
+
     void Start()
     {
-        string mensaje = "Angely"; //Eleccion mensajr
-        string mensajeModificado = "Angeli"; // Cambio una letra
+        ICryptoAdapter crypto = usarLibrerias
+            ? (ICryptoAdapter)new LibraryCryptoAdapter()
+            : new CustomCryptoAdapter(claveCustom);
 
-        byte[] hashOriginal; //Creo hash
-        using (SHA256 sha256 = SHA256.Create()) //El algortimo
-        {
-            hashOriginal = sha256.ComputeHash(Encoding.UTF8.GetBytes(mensaje));
-        }
+        string mensaje          = "Angely";
+        string mensajeModificado = "Angeli";
 
-        Debug.Log("Mensaje original: " + mensaje);
-        Debug.Log("Hash original: " + BitConverter.ToString(hashOriginal));
+        // --- Hash del mensaje original ---
+        string hashOriginal = crypto.Hash(mensaje);
+        Debug.Log($"Mensaje original:   {mensaje}");
+        Debug.Log($"Hash original:      {hashOriginal}");
 
-        byte[] hashModificado;
-        using (SHA256 sha256 = SHA256.Create())
-        {
-            hashModificado = sha256.ComputeHash(Encoding.UTF8.GetBytes(mensajeModificado));
-        }
+        // --- Hash del mensaje modificado (debe ser completamente distinto) ---
+        string hashModificado = crypto.Hash(mensajeModificado);
+        Debug.Log($"Mensaje modificado: {mensajeModificado}");
+        Debug.Log($"Hash modificado:    {hashModificado}");
+        Debug.Log($"¿Hashes iguales?   {hashOriginal == hashModificado}");   // siempre false
 
-        Debug.Log("Mensaje modificado: " + mensajeModificado);
-        Debug.Log("Hash modificado: " + BitConverter.ToString(hashModificado));
+        // --- Firma del hash original ---
+        string firma = crypto.Sign(hashOriginal);
+        Debug.Log($"Firma generada:     {firma[..40]}…");
 
-        using (RSA rsa = RSA.Create()) //Firmar el hash con publica
-        {
-     
-            byte[] firma = rsa.SignHash(hashOriginal, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        // --- Verificación con el hash CORRECTO → debe ser true ---
+        string llavePublica = crypto.ExportarLlavePublica();
+        bool validoOriginal = crypto.Verify(hashOriginal, firma, llavePublica);
+        Debug.Log($"¿Firma válida (original)?   {validoOriginal}");
 
-            Debug.Log("Firma generada: " + BitConverter.ToString(firma));
-
-            bool esValido = rsa.VerifyHash(hashOriginal, firma, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1); //Confirmar
-
-            Debug.Log("¿Firma válida? " + esValido);
-        }
+        // --- Verificación con el hash MODIFICADO → debe ser false ---
+        bool validoModificado = crypto.Verify(hashModificado, firma, llavePublica);
+        Debug.Log($"¿Firma válida (modificado)? {validoModificado}");
     }
 }
