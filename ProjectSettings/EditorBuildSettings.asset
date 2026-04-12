@@ -8,15 +8,30 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/main.unity
     guid: 54f26b5d20a6f5847b4cc7cdeadce2ee
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Sender.unity
     guid: e07a190a1ab8f6d959e1f85d971ac83b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Receiver.unity
     guid: c7733ccfda999254d99e7f6dd830c777
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: dc0c277d28ac50e4f8efbedb4aea131e
+  - enabled: 1
+    path: Assets/Scenes/Custom_Sender.unity
+    guid: 6324241691d8cea43b45f378e8d7a74c
+  - enabled: 1
+    path: Assets/Scenes/Custom_Receiver.unity
+    guid: 0279fe8c57d401f468f13ba98e6f579f
+  - enabled: 1
+    path: Assets/Scenes/Tcp_Receiver.unity
+    guid: 3cbd608580a8ff04d8bec87d1ea88be9
+  - enabled: 1
+    path: Assets/Scenes/Tcp_Sender.unity
+    guid: 251bdeafc8b997f4ba6bf008e911a26b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -421,6 +421,7 @@ El patrón adaptador permite intercambiar entre implementaciones **sin modificar
 ```
 Assets/
 ├── Scenes/
+│   ├── MainMenu.unity            # Menú principal
 │   ├── Tcp_Sender.unity          # Sender con librerías
 │   ├── Tcp_Receiver.unity        # Receiver con librerías
 │   ├── Custom_Sender.unity       # Sender con algoritmos propios
@@ -448,6 +449,7 @@ Assets/
 
 | Escena | Modo | Adaptador |
 |--------|------|-----------|
+| `MainMenu` | Menú principal | `MainMenu.unity` |
 | `Tcp_Sender` | Librerías | `LibraryCryptoAdapter` (SHA-256 + RSA) |
 | `Tcp_Receiver` | Librerías | Auto-detecta del paquete |
 | `Custom_Sender` | Custom | `CustomCryptoAdapter` (Euler-ODE + XOR) |
