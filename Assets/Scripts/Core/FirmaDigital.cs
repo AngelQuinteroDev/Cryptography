@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Script de prueba rápida — corre en Start() sin necesidad de UI ni red.
-// Usa el adaptador activo para demostrar hash + firma + verificación en el log.
+// Usa el factory de CryptoManager para evitar duplicar lógica de instanciación.
 public class FirmaDigital : MonoBehaviour
 {
     [Header("Modo")]
@@ -10,9 +10,7 @@ public class FirmaDigital : MonoBehaviour
 
     void Start()
     {
-        ICryptoAdapter crypto = usarLibrerias
-            ? (ICryptoAdapter)new LibraryCryptoAdapter()
-            : new CustomCryptoAdapter(claveCustom);
+        ICryptoAdapter crypto = CryptoManager.CrearAdapter(usarLibrerias, claveCustom);
 
         string mensaje          = "Angely";
         string mensajeModificado = "Angeli";
