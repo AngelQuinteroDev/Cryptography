@@ -19,7 +19,6 @@ public class NetworkReceiver : MonoBehaviour
     private TcpListener _listener;
     private Thread _hilo;
 
-    // Cola thread-safe para pasar resultados al hilo principal
     private string _mensajeRecibido;
     private string _resultadoHash;
     private string _resultadoFirma;
@@ -41,7 +40,6 @@ public class NetworkReceiver : MonoBehaviour
     {
         if (!_hayResultadoPendiente) return;
 
-        // Actualizar UI en el hilo principal
         if (labelMensaje     != null) labelMensaje.text     = _mensajeRecibido;
         if (labelIntegridad  != null) labelIntegridad.text  = _resultadoIntegridad;
         if (labelAutenticidad != null) labelAutenticidad.text = _resultadoAutenticidad;
@@ -68,28 +66,22 @@ public class NetworkReceiver : MonoBehaviour
             }
             catch (SocketException)
             {
-                break; // Listener cerrado
+                break; 
             }
         }
     }
 
     private void ProcesarPaquete(Paquete p)
     {
-        // Instanciar el adaptador correcto según lo que indica el paquete
         ICryptoAdapter crypto = p.usarLibrerias
             ? (ICryptoAdapter)new LibraryCryptoAdapter()
             : new CustomCryptoAdapter(p.claveCustom);
-
-        // Recalcular hash del mensaje recibido
         string hashRecalculado = crypto.Hash(p.mensaje);
-
-        // Verificar firma con la llave pública recibida
         bool firmaOk      = crypto.Verify(p.hash, p.firma, p.llavePublica);
         bool integridadOk = hashRecalculado == p.hash;
 
         string modo = p.usarLibrerias ? "Librerías (SHA-256 + RSA)" : "Custom";
 
-        // Preparar resultados para el hilo principal
         _mensajeRecibido      = $"Mensaje: {p.mensaje}";
         _resultadoHash        = $"Hash: {p.hash}";
         _resultadoFirma       = $"Firma: {p.firma}";

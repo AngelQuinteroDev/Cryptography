@@ -2,8 +2,6 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-// Adaptador que usa las librerías estándar de .NET
-// Hash: SHA-256  |  Firma/Verificación: RSA 2048 + PKCS#1
 public class LibraryCryptoAdapter : ICryptoAdapter
 {
     private readonly RSACryptoServiceProvider _rsa;
@@ -13,7 +11,6 @@ public class LibraryCryptoAdapter : ICryptoAdapter
         _rsa = new RSACryptoServiceProvider(2048);
     }
 
-    // SHA-256 → string hexadecimal (64 chars)
     public string Hash(string mensaje)
     {
         using SHA256 sha = SHA256.Create();
@@ -21,7 +18,6 @@ public class LibraryCryptoAdapter : ICryptoAdapter
         return BitConverter.ToString(bytes).Replace("-", "");
     }
 
-    // Cifra el hash con la clave PRIVADA → Base64
     public string Sign(string hashHex)
     {
         byte[] hashBytes = HexABytes(hashHex);
@@ -29,7 +25,6 @@ public class LibraryCryptoAdapter : ICryptoAdapter
         return Convert.ToBase64String(firma);
     }
 
-    // Descifra la firma con la clave PÚBLICA y compara con el hash
     public bool Verify(string hashHex, string firmaBase64, string llavePublicaXml)
     {
         using var rsaVerif = new RSACryptoServiceProvider();
@@ -41,7 +36,6 @@ public class LibraryCryptoAdapter : ICryptoAdapter
         return rsaVerif.VerifyHash(hashBytes, firmaBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
     }
 
-    // Solo exporta la parte pública (false = sin clave privada)
     public string ExportarLlavePublica() => _rsa.ToXmlString(false);
 
     private static byte[] HexABytes(string hex)

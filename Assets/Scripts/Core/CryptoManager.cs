@@ -16,7 +16,6 @@ public class CryptoManager : MonoBehaviour
     [Header("Modo")]
     public bool usarLibrerias = true;
 
-    // Propiedad que expone la clave custom desde la UI o el valor por defecto
     public string claveCustom =>
         campoClaveCustom != null && !string.IsNullOrEmpty(campoClaveCustom.text)
             ? campoClaveCustom.text
@@ -26,9 +25,6 @@ public class CryptoManager : MonoBehaviour
 
     void Awake() => InicializarAdapter();
 
-    /// <summary>
-    /// Instancia el adaptador correcto según el modo actual.
-    /// </summary>
     public void InicializarAdapter()
     {
         _adapter = usarLibrerias
@@ -41,19 +37,12 @@ public class CryptoManager : MonoBehaviour
             labelModo.text = usarLibrerias ? "Modo: Librerías" : "Modo: Custom";
     }
 
-    /// <summary>
-    /// Conectar al Toggle.OnValueChanged(bool) de la UI.
-    /// </summary>
     public void CambiarModo(bool libreria)
     {
         usarLibrerias = libreria;
         InicializarAdapter();
     }
 
-    /// <summary>
-    /// Genera hash + firma + llave pública del mensaje actual.
-    /// Llamado por NetworkSender.Enviar().
-    /// </summary>
     public (string hash, string firma, string llavePublica) ObtenerPaquete()
     {
         string mensaje = campoMensaje != null ? campoMensaje.text : "";
@@ -64,7 +53,6 @@ public class CryptoManager : MonoBehaviour
             return ("", "", "");
         }
 
-        // Re-inicializar por si la clave custom cambió
         if (!usarLibrerias) InicializarAdapter();
 
         string hash  = _adapter.Hash(mensaje);
@@ -78,10 +66,7 @@ public class CryptoManager : MonoBehaviour
         return (hash, firma, llave);
     }
 
-    /// <summary>
-    /// Factory estático para crear un adaptador sin necesidad de MonoBehaviour.
-    /// Útil para FirmaDigital u otros scripts de prueba.
-    /// </summary>
+
     public static ICryptoAdapter CrearAdapter(bool usarLibs, string clave = "gato")
     {
         return usarLibs

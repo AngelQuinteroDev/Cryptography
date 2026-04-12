@@ -6,5 +6,5 @@ public class Paquete
     public string firma;
     public string llavePublica;
     public bool usarLibrerias;
-    public string claveCustom;   // solo relevante cuando usarLibrerias == false
+    public string claveCustom;   
 }
