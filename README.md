@@ -1,4 +1,4 @@
-# 🔐 Taller de Firma Digital — Unity 3D
+# Taller de Firma Digital — Unity 3D
 
 Sistema de **firma digital** en Unity 3D que implementa hashing, cifrado asimétrico y comunicación TCP para verificar **autenticidad** e **integridad** de mensajes entre dos escenas.
 
@@ -8,7 +8,7 @@ Soporta dos modos:
 
 ---
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 - [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
 - [Flujo de Firma Digital](#-flujo-de-firma-digital)
@@ -67,7 +67,7 @@ graph TB
 
 ---
 
-## 🔄 Flujo de Firma Digital
+## Flujo de Firma Digital
 
 ```mermaid
 sequenceDiagram
@@ -105,7 +105,7 @@ sequenceDiagram
 
 ---
 
-## 📚 Modo Librerías (SHA-256 + RSA)
+## Modo Librerías (SHA-256 + RSA)
 
 | Operación | Algoritmo | Detalle |
 |-----------|-----------|---------|
@@ -129,7 +129,7 @@ flowchart LR
 
 ---
 
-## 🧪 Modo Custom (Euler-ODE + XOR)
+## Modo Custom (Euler-ODE + XOR)
 
 ### Pipeline de Hash (4 Fases)
 
@@ -370,7 +370,7 @@ return Convert.ToBase64String(b);
 
 ---
 
-## 🔌 Patrón Adaptador
+## Patrón Adaptador
 
 ```mermaid
 classDiagram
@@ -416,7 +416,7 @@ El patrón adaptador permite intercambiar entre implementaciones **sin modificar
 
 ---
 
-## 📁 Estructura de Carpetas
+## Estructura de Carpetas
 
 ```
 Assets/
@@ -445,7 +445,7 @@ Assets/
 
 ---
 
-## 🎮 Escenas
+## Escenas
 
 | Escena | Modo | Adaptador |
 |--------|------|-----------|
@@ -459,7 +459,7 @@ Assets/
 
 ---
 
-## 🚀 Cómo Ejecutar
+## Cómo Ejecutar
 
 1. Abrir el proyecto en **Unity 2022+**
 2. Para probar con **librerías**:
@@ -475,7 +475,7 @@ Assets/
 
 ---
 
-## 🛠 Tecnologías
+## Tecnologías
 
 - **Unity 3D** 2022+
 - **C#** / .NET
